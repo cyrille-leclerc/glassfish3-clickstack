@@ -1,0 +1,18 @@
+#!/bin/sh
+set -e
+set -u
+
+control_dir="$(dirname $0)"
+. $control_dir/config
+
+glassfish_bootstrap_jar=$glassfish_base/modules/glassfish.jar
+
+
+echo $glassfish_home/bin/asadmin run
+
+#exec $app_dir/tomcat7/bin/catalina.sh run
+
+echo exec $java \
+    -Dapp_port=$app_port \
+    -jar $glassfish_bootstrap_jar
+

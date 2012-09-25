@@ -1,0 +1,78 @@
+# -*-shell-script-*-
+set -x
+
+find_java() {
+    set +u
+    java_version=${staxcat_java_version-"1.6"}
+    set -u
+    case "$java_version" in
+	"1.6")echo "/opt/java6/bin/java";;
+	"1.7") echo "/opt/java7/bin/java";;
+	*) which java
+    esac
+}
+
+java=$(find_java)
+echo "Using $java"
+
+glassfish_base=$app_dir/glassfish3/glassfish3/glassfish
+
+echo "GlassFish base: $glassfish_base"
+install_app() {
+    glassfish_dir=$app_dir/glassfish3/glassfish3
+    echo "GlassFish base: $glassfish_dir"
+    
+    cp -rf $plugin_dir/glassfish3 $app_dir
+    chmod +x $glassfish_dir/bin/asadmin
+
+    mkdir -p -m 770 $glassfish_dir
+
+    echo "Creating GlassFish working directory"
+
+    if [ -f "$pkg_dir/../app.zip" ]; then
+        #this is an archive-based app deploy
+        unzip -d $glassfish_dir/glassfish/domains/domain1/autodeploy $pkg_dir/../app.zip
+    else
+        #this is a local development app deploy
+        cp -a $pkg_dir/ $glassfish_base/glassfish/domains/domain1/autodeploy
+        rm $glassfish_base/glassfish/domains/domain1/autodeploy/.genapp/metadata.json
+    fi
+	
+}
+
+
+write_config() {
+    config="$control_dir/config"
+    echo "app_dir=$app_dir" >> $config
+    echo "port=$app_port" >> $config
+    echo "java=$java" >> $config
+    echo "glassfish_home=$glassfish_dir" >> $config
+    echo "glassfish_base=$glassfish_base" >> $config
+
+    set +u
+    echo "environment=$staxcat_appserver_env" >> $config
+    set -u
+}
+
+write_java_opts() {
+    java_opts_core="$control_dir/java-opts-10-core"
+    set +u
+    resolved_opts=$(eval "echo $staxcat_java_opts")
+    set -u
+    echo $resolved_opts > $java_opts_core
+}
+
+write_appserver_xml() {
+    echo "placeholder"
+}
+
+write_control() {
+    install -m 550 $plugin_dir/control/start $control_dir
+    install -m 550 $plugin_dir/control/stats-appstat $control_dir
+}
+
+install_app
+write_config
+write_java_opts
+write_control
+
