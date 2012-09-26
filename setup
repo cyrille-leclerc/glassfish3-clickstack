@@ -15,11 +15,11 @@ find_java() {
 java=$(find_java)
 echo "Using $java"
 
-glassfish_base=$app_dir/glassfish3/glassfish3/glassfish
+glassfish_base=$app_dir/glassfish3/glassfish
 
 echo "GlassFish base: $glassfish_base"
 install_app() {
-    glassfish_dir=$app_dir/glassfish3/glassfish3
+    glassfish_dir=$app_dir/glassfish3
     echo "GlassFish base: $glassfish_dir"
     
     cp -rf $plugin_dir/glassfish3 $app_dir
@@ -33,9 +33,9 @@ install_app() {
         #this is an archive-based app deploy
         unzip -d $glassfish_dir/glassfish/domains/domain1/autodeploy $pkg_dir/../app.zip
     else
-        #this is a local development app deploy
-        cp -a $pkg_dir/ $glassfish_base/glassfish/domains/domain1/autodeploy
-        rm $glassfish_base/glassfish/domains/domain1/autodeploy/.genapp/metadata.json
+        #this is a local development app deploy        
+        cp -a $pkg_dir $glassfish_base/domains/domain1/autodeploy
+        #rm $glassfish_base/domains/domain1/autodeploy/.genapp/metadata.json
     fi
 	
 }
@@ -45,7 +45,12 @@ write_config() {
     config="$control_dir/config"
     echo "app_dir=$app_dir" >> $config
     echo "port=$app_port" >> $config
-    echo "java=$java" >> $config
+
+    if [ -f "$pkg_dir/../app.zip" ]; then
+        echo "java=$java" >> $config
+    else
+        echo "java=java" >> $config #local
+    fi
     echo "glassfish_home=$glassfish_dir" >> $config
     echo "glassfish_base=$glassfish_base" >> $config
 

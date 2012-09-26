@@ -25,6 +25,8 @@ package: compile
 	jar cvf $(build_dir)/glassfish3-plugin.zip control setup glassfish3
 
 clean:
-	rm -rf $(build_dir)
+	rm -f $(build_dir)/glassfish3-plugin.zip
 	rm -rf glassfish3
 
+clean-all: clean
+	rm -rf $(build_dir)

@@ -8,11 +8,8 @@ control_dir="$(dirname $0)"
 glassfish_bootstrap_jar=$glassfish_base/modules/glassfish.jar
 
 
-echo $glassfish_home/bin/asadmin run
 
-#exec $app_dir/tomcat7/bin/catalina.sh run
-
-echo exec $java \
-    -Dapp_port=$app_port \
+exec $java \
+    -Dapp_port=$port \
     -jar $glassfish_bootstrap_jar
 
