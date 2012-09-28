@@ -1,10 +1,11 @@
 #! /bin/bash
 #
+# Build the GlassFish v3 plugin
 # 
 # TODOs
 # TODO: SSL port?
-# TODO: There is admin port, how to deal with it? How do they deal with tomcat admin port
-# TODO: add md5 verify to glassfish download
+# TODO: add md5 verify to glassfish download?
+#
 
 build_dir = ./build
 pkg_dir = ./build/plugin

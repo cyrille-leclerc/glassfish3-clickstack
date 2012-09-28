@@ -1,6 +1,12 @@
-# -*-shell-script-*-
+# 
+# GlassFish v3 ClickStack plugin for CloudBees PaaS
+#
+# setup script is called by when a Java web app is deployed with GlassFish v3 as target 
+# application server.
+#
 set -x
 
+# Find Java version available inside CloudBees PaaS
 find_java() {
     set +u
     java_version=${staxcat_java_version-"1.6"}
@@ -15,9 +21,12 @@ find_java() {
 java=$(find_java)
 echo "Using $java"
 
+# Serves as the base directory of GlassFish
 glassfish_base=$app_dir/glassfish3/glassfish
 
-echo "GlassFish base: $glassfish_base"
+echo "GlassFish Base: $glassfish_base"
+
+# Install GlassFish and deploy application to it
 install_app() {
     glassfish_dir=$app_dir/glassfish3
     echo "GlassFish base: $glassfish_dir"
@@ -25,7 +34,7 @@ install_app() {
     cp -rf $plugin_dir/glassfish3 $app_dir
     chmod +x $glassfish_dir/bin/asadmin
 
-    mkdir -p -m 770 $glassfish_dir
+    chmod -R 770 $glassfish_dir
 
     echo "Creating GlassFish working directory"
 
@@ -33,14 +42,16 @@ install_app() {
         #this is an archive-based app deploy
         unzip -d $glassfish_dir/glassfish/domains/domain1/autodeploy $pkg_dir/../app.zip
     else
-        #this is a local development app deploy        
+        # This is a local development mode. 
+        # TODO: Provide link to wiki on local dev mode details
         cp -a $pkg_dir $glassfish_base/domains/domain1/autodeploy
-        #rm $glassfish_base/domains/domain1/autodeploy/.genapp/metadata.json
     fi
 	
 }
 
 
+# Write the configuration file. Configuration file is a JSON file, property 
+# names are derived form it and injected in to  control/start script.
 write_config() {
     config="$control_dir/config"
     echo "app_dir=$app_dir" >> $config
@@ -59,6 +70,7 @@ write_config() {
     set -u
 }
 
+# Set up java options
 write_java_opts() {
     java_opts_core="$control_dir/java-opts-10-core"
     set +u
@@ -67,10 +79,13 @@ write_java_opts() {
     echo $resolved_opts > $java_opts_core
 }
 
+# Write any application server descriptor to aid it do bit more. Probably some 
+# stuff from install_app can be moved here.
 write_appserver_xml() {
     echo "placeholder"
 }
 
+# Create the control scripts. start is most important which is called to start # the application server and run the app.
 write_control() {
     install -m 550 $plugin_dir/control/start $control_dir
     install -m 550 $plugin_dir/control/stats-appstat $control_dir

@@ -5,10 +5,11 @@ set -u
 control_dir="$(dirname $0)"
 . $control_dir/config
 
+# GlasFish main class
 glassfish_bootstrap_jar=$glassfish_base/modules/glassfish.jar
 
 
-
+# Execute GlassFish v3
 exec $java \
     -Dapp_port=$port \
     -jar $glassfish_bootstrap_jar
