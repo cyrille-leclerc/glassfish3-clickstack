@@ -29,10 +29,9 @@ echo "GlassFish Base: $glassfish_base"
 # Install GlassFish and deploy application to it
 install_app() {
     glassfish_dir=$app_dir/glassfish3
-    echo "GlassFish base: $glassfish_dir"
+    echo "GlassFish dir: $glassfish_dir"
     
     cp -rf $plugin_dir/glassfish3 $app_dir
-    chmod +x $glassfish_dir/bin/asadmin
 
     chmod -R 770 $glassfish_dir
 

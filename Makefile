@@ -27,7 +27,7 @@ package: compile
 
 clean:
 	rm -f $(build_dir)/glassfish3-plugin.zip
-	rm -rf glassfish3
+	rm -rf $(build_dir)/glassfish3
 
 clean-all: clean
 	rm -rf $(build_dir)

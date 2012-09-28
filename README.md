@@ -9,25 +9,18 @@ Glassfish v3 ClickStack for CloudBees PaaS. Deploy any Servlet2.x/3.x/JSP/JAX-RS
 
 # Build 
 
-$ make package
+    $ make package
 
-After successful build upload glassfish3-plugin.zip to HTTP(S) accessible location
+After successful build glassfish3-plugin.zip is uploaded in to RUN platform and assigned 'glassfish3' plugin name.
 
 
 # Package and Deploy Sample App
 
 ## Create application zip file
-
-$ zip -r build/hello.zip example/hello/ 
+    $ cd example
+    $ zip -r ../build/hello.zip hello/ 
+    $ cd ..
 
 ## Deploy 
 
-$ bees app:deploy -a APP_ID -t glassfish3 -RPLUGIN.SRC.glassfish3=HTTP_LOCATION_OF_GLASSFISH_CLICKSTACK build/hello.zip
-
-
-## Deploy sample app using already uploaded GlassFish v3 ClickStack
-
-$ bees app:deploy -a APP_ID -t glassfish3 -RPLUGIN.SRC.glassfish3=http://glassfish-clickstack.s3.amazonaws.com/glassfish3-plugin.zip hello.zip
-
-
-
+    $ bees app:deploy -a APP_ID -t glassfish3  build/hello.zip

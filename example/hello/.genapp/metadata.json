@@ -1,9 +1,0 @@
-{
-  "app": {
-    "plugins": [
-        {
-          "src": "local_plugin:///Users/vivek/genapp/plugins/glassfish3"
-        }
-    ]
-  }
-}
