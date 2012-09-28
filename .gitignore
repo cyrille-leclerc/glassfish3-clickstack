@@ -1,2 +1,3 @@
 build/
 glassfish3/
+*.zip
