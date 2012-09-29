@@ -73,7 +73,7 @@ write_config() {
 write_java_opts() {
     java_opts_core="$control_dir/java-opts-10-core"
     set +u
-    resolved_opts=$(eval "echo $staxcat_java_opts")
+    resolved_opts=$(eval "echo $glassfish3_opts")
     set -u
     echo $resolved_opts > $java_opts_core
 }
