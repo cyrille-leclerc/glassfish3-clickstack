@@ -39,7 +39,7 @@ install_app() {
 
     if [ -f "$pkg_dir/../app.zip" ]; then
         #this is an archive-based app deploy
-        unzip -d $glassfish_dir/glassfish/domains/domain1/autodeploy $pkg_dir/../app.zip
+        mv  $pkg_dir/../app.zip $glassfish_dir/glassfish/domains/domain1/autodeploy/app.war
     else
         # This is a local development mode. 
         # TODO: Provide link to wiki on local dev mode details
