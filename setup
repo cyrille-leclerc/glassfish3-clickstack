@@ -1,97 +1,17 @@
-# 
+#!/bin/bash
+#
 # GlassFish v3 ClickStack plugin for CloudBees PaaS
 #
-# setup script is called by when a Java web app is deployed with GlassFish v3 as target 
-# application server.
-#
-set -x
+# setup script is called by when a Java web app is deployed with GlassFish v3
+# as target application server.
 
-# Find Java version available inside CloudBees PaaS
-find_java() {
-    set +u
-    java_version=${staxcat_java_version-"1.6"}
-    set -u
-    case "$java_version" in
-	"1.6")echo "/opt/java6/bin/java";;
-	"1.7") echo "/opt/java7/bin/java";;
-	*) which java
-    esac
-}
+set -u
+set -e
 
-java=$(find_java)
-echo "Using $java"
-
-# Serves as the base directory of GlassFish
-glassfish_base=$app_dir/glassfish3/glassfish
-
-echo "GlassFish Base: $glassfish_base"
-
-# Install GlassFish and deploy application to it
-install_app() {
-    glassfish_dir=$app_dir/glassfish3
-    echo "GlassFish dir: $glassfish_dir"
-    
-    cp -rf $plugin_dir/glassfish3 $app_dir
-
-    chmod -R 770 $glassfish_dir
-
-    echo "Creating GlassFish working directory"
-
-    if [ -f "$pkg_dir/../app.zip" ]; then
-        #this is an archive-based app deploy
-        mv  $pkg_dir/../app.zip $glassfish_dir/glassfish/domains/domain1/autodeploy/app.war
-    else
-        # This is a local development mode. 
-        # TODO: Provide link to wiki on local dev mode details
-        cp -a $pkg_dir $glassfish_base/domains/domain1/autodeploy
-    fi
-	
-}
-
-
-# Write the configuration file. Configuration file is a JSON file, property 
-# names are derived form it and injected in to  control/start script.
-write_config() {
-    config="$control_dir/config"
-    echo "app_dir=$app_dir" >> $config
-    echo "port=$app_port" >> $config
-
-    if [ -f "$pkg_dir/../app.zip" ]; then
-        echo "java=$java" >> $config
-    else
-        echo "java=java" >> $config #local
-    fi
-    echo "glassfish_home=$glassfish_dir" >> $config
-    echo "glassfish_base=$glassfish_base" >> $config
-
-    set +u
-    echo "environment=$staxcat_appserver_env" >> $config
-    set -u
-}
-
-# Set up java options
-write_java_opts() {
-    java_opts_core="$control_dir/java-opts-10-core"
-    set +u
-    resolved_opts=$(eval "echo $glassfish3_opts")
-    set -u
-    echo $resolved_opts > $java_opts_core
-}
-
-# Write any application server descriptor to aid it do bit more. Probably some 
-# stuff from install_app can be moved here.
-write_appserver_xml() {
-    echo "placeholder"
-}
-
-# Create the control scripts. start is most important which is called to start # the application server and run the app.
-write_control() {
-    install -m 550 $plugin_dir/control/start $control_dir
-    install -m 550 $plugin_dir/control/stats-appstat $control_dir
-}
+. "$plugin_dir/functions"
 
 install_app
 write_config
-write_java_opts
+write_jvm_opts
+write_system_props
 write_control
-

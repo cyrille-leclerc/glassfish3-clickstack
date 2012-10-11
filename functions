@@ -1,0 +1,35 @@
+# -*-shell-script-*-
+
+. "$genapp_functions/core"
+. "$plugin_dir/java/functions"
+
+glassfish_dir=$app_dir/glassfish3
+glassfish_base=$glassfish_dir/glassfish
+
+# Install GlassFish and deploy application to it.
+install_app() {
+    cp -rf $plugin_dir/glassfish3 $app_dir
+    chmod -R g+w $glassfish_dir
+    cp $pkg_dir/app.war $glassfish_dir/glassfish/domains/domain1/autodeploy
+}
+
+# Write the configuration file. Configuration file is a bash file, property
+# names are derived form it and injected in to control/start script.
+write_config() {
+    config="$control_dir/config"
+    echo "Writing configuration to $config"
+    java=$(find_java)
+    echo "Using JVM at $java"
+    echo "app_dir=$app_dir" >> $config
+    echo "port=$app_port" >> $config
+    echo "java=$java" >> $config
+    echo "glassfish_home=$glassfish_dir" >> $config
+    echo "glassfish_base=$glassfish_base" >> $config
+}
+
+# Create the control scripts. start is most important which is called to start
+# the application server and run the app.
+write_control() {
+    install -m 550 $plugin_dir/control/start $control_dir
+    install -m 550 $plugin_dir/control/stats-appstat $control_dir
+}
