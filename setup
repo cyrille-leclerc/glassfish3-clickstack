@@ -10,6 +10,7 @@ set -e
 
 . "$plugin_dir/functions"
 
+install_glassfish
 install_app
 write_config
 write_jvm_opts
