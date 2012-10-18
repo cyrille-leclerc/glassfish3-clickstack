@@ -23,7 +23,8 @@ compile:
 package: compile
 	unzip -d . $(build_dir)/glassfish.zip
 	cp server/conf/domain.xml glassfish3/glassfish/domains/domain1/config/domain.xml
-	chmod  755 glassfish3/glassfish/domains/domain1/config
+	chmod 755 glassfish3/glassfish/domains/domain1/config
+	chmod 644 glassfish3/glassfish/domains/domain1/config/*
 	zip -9 -r  "$(build_dir)/glassfish3-plugin.zip" control setup functions java glassfish3
 
 clean:
