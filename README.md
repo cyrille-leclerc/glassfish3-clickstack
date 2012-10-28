@@ -16,11 +16,11 @@ After successful build glassfish3-plugin.zip is uploaded in to RUN platform and 
 
 # Package and Deploy Sample App
 
-## Create application zip file
-    $ cd example
-    $ zip -r ../build/hello.zip hello/ 
-    $ cd ..
+## Create application war file
+    $ cd example/hello
+    $ jar cvf ../../hello.war .
+    $ cd ../..
 
 ## Deploy 
 
-    $ bees app:deploy -a APP_ID -t glassfish3  build/hello.zip
+    $ bees app:deploy -a APP_ID -t glassfish3  hello.war
