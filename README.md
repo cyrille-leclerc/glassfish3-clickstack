@@ -24,3 +24,9 @@ After successful build glassfish3-plugin.zip is uploaded in to RUN platform and 
 ## Deploy 
 
     $ bees app:deploy -a APP_ID -t glassfish3  hello.war
+
+# TODOs
+
+* Database resource injection
+* Clustering, session store
+* Lot more testing...
