@@ -9,7 +9,7 @@ publish_url = s3://$(publish_bucket)/$(publish_repo)/
 
 deps = lib/glassfish.zip java
 
-pkg_files = README.md LICENSE setup functions control lib java
+pkg_files = README.md LICENSE setup functions control server lib java
 
 include plugin.mk
 
