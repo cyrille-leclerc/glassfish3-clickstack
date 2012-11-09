@@ -1,4 +1,4 @@
-# Glassfish3 ClickStack plugin
+ # Glassfish3 ClickStack plugin
 #
 # TODO: SSL port?
 
@@ -9,7 +9,7 @@ publish_url = s3://$(publish_bucket)/$(publish_repo)/
 
 deps = lib/glassfish.zip java
 
-pkg_files = README LICENSE setup functions control lib java
+pkg_files = README.md LICENSE setup functions control lib java
 
 include plugin.mk
 
@@ -28,3 +28,9 @@ java:
 	git clone $(java_plugin_gitrepo) java
 	rm -rf java/.git
 	cd java; make clean; make deps
+
+hello.war:
+	cd example/hello; zip -r ../../hello.war .
+
+clean:
+	rm -f hello.war
