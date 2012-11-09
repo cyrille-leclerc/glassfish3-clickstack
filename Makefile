@@ -1,35 +1,30 @@
-#! /bin/bash
+# Glassfish3 ClickStack plugin
 #
-# Build the GlassFish v3 plugin
-# 
-# TODOs
 # TODO: SSL port?
-# TODO: add md5 verify to glassfish download?
-#
 
-build_dir = ./build
-pkg_dir = ./build/plugin
-glassfish_url="http://download.java.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2-web.zip"
+plugin_name = glassfish3-plugin
+publish_bucket = cloudbees-clickstack
+publish_repo = test
+publish_url = s3://$(publish_bucket)/$(publish_repo)/
 
-compile:
-	mkdir -p $(build_dir)
-	@if [ -e $(build_dir)/glassfish.zip ]; then \
-	   echo "Skipping GlassFish download"; \
-	else \
-	   echo "Downloading GlassFish..."; \
-	   curl -v -L $(glassfish_url) > $(build_dir)/glassfish.zip; \
-	fi
+deps = lib/glassfish.zip java
 
-package: compile
-	unzip -d . $(build_dir)/glassfish.zip
-	cp server/conf/domain.xml glassfish3/glassfish/domains/domain1/config/domain.xml
-	chmod 755 glassfish3/glassfish/domains/domain1/config
-	chmod 644 glassfish3/glassfish/domains/domain1/config/*
-	zip -9 -r  "$(build_dir)/glassfish3-plugin.zip" control setup functions java glassfish3
+pkg_files = README LICENSE setup functions control lib java
 
-clean:
-	rm -f $(build_dir)/glassfish3-plugin.zip
-	rm -rf glassfish3
+include plugin.mk
 
-clean-all: clean
-	rm -rf $(build_dir)
+glassfish_ver = 3.1.2.2
+glassfish_src = "http://download.java.net/glassfish/$(glassfish_ver)/release/glassfish-$(glassfish_ver)-web.zip"
+glassfish_src_md5 = 271f1c0d1f7481ebf34ca6b71e8c4e0f
+
+lib/glassfish.zip:
+	mkdir -p lib
+	curl -fLo lib/glassfish.zip "$(glassfish_src)"
+	echo "$(glassfish_src_md5)  lib/glassfish.zip" | md5sum --check
+
+java_plugin_gitrepo = git://github.com/CloudBees-community/java-clickstack.git
+
+java:
+	git clone $(java_plugin_gitrepo) java
+	rm -rf java/.git
+	cd java; make clean; make deps

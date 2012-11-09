@@ -1,33 +1,36 @@
 # -*-shell-script-*-
 
-. "$genapp_functions/core"
 . "$plugin_dir/java/functions"
 
 glassfish_dir=$app_dir/glassfish3
 glassfish_base=$glassfish_dir/glassfish
+autodeploy_dir=$glassfish_dir/glassfish/domains/domain1/autodeploy
 
 install_glassfish() {
-    cp -rf $plugin_dir/glassfish3 $app_dir
+    echo "Installing glassfish"
+    cp -a $plugin_dir/glassfish3 $app_dir
     chmod -R g+w $glassfish_dir
 }
 
 install_app() {
-    cp $pkg_dir/app.war $glassfish_dir/glassfish/domains/domain1/autodeploy
+    echo "Copying application war to $autodeploy_dir"
+    cp $pkg_dir/app.war $autodeploy_dir
 }
 
 write_config() {
-    config="$control_dir/config"
-    echo "Writing configuration to $config"
+    _config="$control_dir/config"
+    echo "Writing configuration to $_config"
     java=$(find_java)
-    echo "Using JVM at $java"
-    echo "app_dir=$app_dir" >> $config
-    echo "port=$app_port" >> $config
-    echo "java=$java" >> $config
+    echo "Using Java at $java"
+    echo "app_dir=$app_dir" >> $_config
+    echo "port=$app_port" >> $_config
+    echo "java=$java" >> $_config
     echo "glassfish_home=$glassfish_dir" >> $config
     echo "glassfish_base=$glassfish_base" >> $config
 }
 
 write_control() {
+    echo "Writing control scripts to $control_dir"
     install -m 550 $plugin_dir/control/start $control_dir
     install -m 550 $plugin_dir/control/stats-appstat $control_dir
 }

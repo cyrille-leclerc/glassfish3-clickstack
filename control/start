@@ -1,23 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 set -u
 
 control_dir="$(dirname $0)"
 . $control_dir/config
+. $control_dir/java/functions
 
-# GlasFish main class
-glassfish_bootstrap_jar=$glassfish_base/modules/glassfish.jar
+java_opts="$(java_opts $control_dir)"
+sysprop_opts="-Dapp_port=$port"
+jar=$glassfish_base/modules/glassfish.jar
 
-
-# Collect all the java_opts
-java_opts=""
-for f in `ls $control_dir/java-opts-* | sort`; do
-    java_opts="$java_opts `cat $f`"
-done
-
-# Execute GlassFish v3
-exec $java \
-    -Dapp_port=$port \
-    $java_opts \
-    -jar $glassfish_bootstrap_jar
-
+exec bash -c "$java $java_opts $sysprop_opts -jar $jar"

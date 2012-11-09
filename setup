@@ -1,18 +1,16 @@
 #!/bin/bash
-#
-# GlassFish v3 ClickStack plugin for CloudBees PaaS
-#
-# setup script is called by when a Java web app is deployed with GlassFish v3
-# as target application server.
 
 set -u
 set -e
 
 . "$plugin_dir/functions"
 
-install_glassfish
+create_app_skel
+install_glassdish
+install_server_config
 install_app
+install_java_agent
+install_java_functions
 write_config
-write_jvm_opts
-write_system_props
+write_java_opts
 write_control

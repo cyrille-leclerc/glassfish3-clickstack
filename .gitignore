@@ -1,3 +1,5 @@
-build/
-glassfish3/
-*.zip
+s3cfg
+pkg
+lib/glassfish.zip
+glassfish3-plugin.zip
+java
