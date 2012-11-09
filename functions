@@ -4,17 +4,20 @@
 
 glassfish_dir=$app_dir/glassfish3
 glassfish_base=$glassfish_dir/glassfish
-autodeploy_dir=$glassfish_dir/glassfish/domains/domain1/autodeploy
+glassfish_autodeploy_dir=$glassfish_base/domains/domain1/autodeploy
+glassfish_config_dir=$glassfish_base/glassfish/domains/domain1/config
 
 install_glassfish() {
     echo "Installing glassfish"
-    cp -a $plugin_dir/glassfish3 $app_dir
+    unzip -qd $app_dir $plugin_dir/lib/glassfish.zip
     chmod -R g+w $glassfish_dir
+    cp $plugin_dir/server/conf/domain.xml $glassfish_config_dir/domain.xml
+    chmod -R g+w $glassfish_config_dir
 }
 
 install_app() {
     echo "Copying application war to $autodeploy_dir"
-    cp $pkg_dir/app.war $autodeploy_dir
+    cp $pkg_dir/app.war $glassfish_autodeploy_dir
 }
 
 write_config() {
@@ -25,8 +28,8 @@ write_config() {
     echo "app_dir=$app_dir" >> $_config
     echo "port=$app_port" >> $_config
     echo "java=$java" >> $_config
-    echo "glassfish_home=$glassfish_dir" >> $config
-    echo "glassfish_base=$glassfish_base" >> $config
+    echo "glassfish_home=$glassfish_dir" >> $_config
+    echo "glassfish_base=$glassfish_base" >> $_config
 }
 
 write_control() {
