@@ -7,7 +7,10 @@ control_dir="$(dirname $0)"
 . $control_dir/java/functions
 
 java_opts="$(java_opts $control_dir)"
-sysprop_opts="-Dapp_port=$port"
-jar=$glassfish_base/modules/glassfish.jar
 
-exec bash -c "$java $java_opts $sysprop_opts -jar $jar"
+exec bash -c "
+$java \
+  $java_opts \
+  -Dapp_port=$port \
+  -jar $glassfish_base/modules/glassfish.jar
+"
