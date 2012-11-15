@@ -4,7 +4,7 @@
 
 plugin_name = glassfish3-plugin
 publish_bucket = cloudbees-clickstack
-publish_repo = test
+publish_repo = testing
 publish_url = s3://$(publish_bucket)/$(publish_repo)/
 
 deps = lib/glassfish.zip java
