@@ -9,7 +9,9 @@ create_app_skel
 install_glassfish
 install_app
 install_java_agent
+install_jmxtrans_agent
 install_java_control_functions
+install_server_config
 write_config
 write_java_opts
 write_control

@@ -1,5 +1,9 @@
-#!/bin/sh
+#!/bin/bash
+
 set -e
+set -u
+
+# Returns some useful stats from the jmx agent.
 control_dir="$(dirname $0)"
-. $control_dir/config
-curl -sf -m 15 http://127.0.0.1:${port}/_stax/stats?format=properties | grep -v "^#" | sed 's/=/ /' | awk '{ gsub(/\./, "_", $1); print }'
+. "$control_dir/config"
+cat "$log_dir/glassfish3-metrics.data"

@@ -1,6 +1,8 @@
 s3cfg
 pkg
-lib/glassfish.zip
+lib/
 glassfish3-plugin.zip
-java
+/java
 hello.war
+.idea
+*.iml
