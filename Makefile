@@ -23,7 +23,7 @@ lib:
 lib/glassfish.zip: lib/genapp-setup-glassfish3.jar
 	mkdir -p lib
 	curl -fLo lib/glassfish.zip "$(glassfish_src)"
-	echo "$(glassfish_src_md5)  lib/glassfish.zip" | md5sum --check
+	$(call check-md5,lib/glassfish.zip,$(glassfish_src_md5))
 
 JAVA_SOURCES := $(shell find genapp-setup-glassfish3/src -name "*.java")
 JAVA_JARS = $(shell find genapp-setup-glassfish3/target -name "*.jar")
