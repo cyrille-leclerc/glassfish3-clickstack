@@ -7,6 +7,7 @@ glassfish_base=$glassfish_dir/glassfish
 glassfish_autodeploy_dir=$glassfish_base/domains/domain1/autodeploy
 glassfish_config_dir=$glassfish_base/domains/domain1/config
 glassfish_lib_dir=$glassfish_base/domains/domain1/lib
+app_tmp=$app_dir/tmp
 
 create_app_skel() {
     echo "Creating application skeleton at $app_dir"
@@ -31,6 +32,7 @@ install_glassfish() {
     mkdir -p $glassfish_lib_dir
     chmod 770 $glassfish_lib_dir
     chmod 660 $glassfish_lib_dir/*
+    mkdir -pm 770 $app_tmp
 }
 
 install_jmxtrans_agent() {
@@ -86,6 +88,7 @@ write_config() {
     echo "java=$java" >> $_config
     echo "glassfish_home=$glassfish_dir" >> $_config
     echo "glassfish_base=$glassfish_base" >> $_config
+    echo "app_tmp=\"$app_tmp\"" >> "$_config"
     echo "log_dir=\"$log_dir\"" >> "$_config"
 }
 

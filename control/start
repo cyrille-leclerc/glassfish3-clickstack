@@ -12,5 +12,6 @@ exec bash -c "
 $java \
   $java_opts \
   -Dapp_port=$port \
+  -Djava.io.tmpdir=\"$app_tmp\" \
   -jar $glassfish_base/modules/glassfish.jar
 "
