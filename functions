@@ -58,7 +58,7 @@ install_jmxtrans_agent() {
 install_app() {
     echo "Copying application war to $glassfish_autodeploy_dir"
     cp $pkg_dir/app.war $glassfish_autodeploy_dir
-    lcount=`unzip -l $pkg_dir/app.war | grep META-INF/lib/ | wc -l`
+    lcount=$(unzip -l $pkg_dir/app.war | grep META-INF/lib/ | wc -l)
     echo "found $lcount files matching meta-inf/lib/"
     if [ $lcount -eq 0 ]; then
         echo "no lib provided under META-INF/lib"
