@@ -7,6 +7,7 @@ glassfish_base=$glassfish_dir/glassfish
 glassfish_autodeploy_dir=$glassfish_base/domains/domain1/autodeploy
 glassfish_config_dir=$glassfish_base/domains/domain1/config
 glassfish_lib_dir=$glassfish_base/domains/domain1/lib
+app_tmp=$app_dir/tmp
 
 create_app_skel() {
     echo "Creating application skeleton at $app_dir"
@@ -31,6 +32,7 @@ install_glassfish() {
     mkdir -p $glassfish_lib_dir
     chmod 770 $glassfish_lib_dir
     chmod 660 $glassfish_lib_dir/*
+    mkdir -pm 770 $app_tmp
 }
 
 install_jmxtrans_agent() {
@@ -56,7 +58,13 @@ install_jmxtrans_agent() {
 install_app() {
     echo "Copying application war to $glassfish_autodeploy_dir"
     cp $pkg_dir/app.war $glassfish_autodeploy_dir
-    unzip -jo $pkg_dir/app.war META-INF/lib/* -d $glassfish_lib_dir
+    lcount=`unzip -l $pkg_dir/app.war | grep META-INF/lib/ | wc -l`
+    echo "found $lcount files matching meta-inf/lib/"
+    if [ $lcount -eq 0 ]; then
+        echo "no lib provided under META-INF/lib"
+    else
+        unzip -jo $pkg_dir/app.war META-INF/lib/* -d $glassfish_lib_dir
+    fi
 }
 
 install_server_config() {
@@ -86,6 +94,7 @@ write_config() {
     echo "java=$java" >> $_config
     echo "glassfish_home=$glassfish_dir" >> $_config
     echo "glassfish_base=$glassfish_base" >> $_config
+    echo "app_tmp=\"$app_tmp\"" >> "$_config"
     echo "log_dir=\"$log_dir\"" >> "$_config"
 }
 
