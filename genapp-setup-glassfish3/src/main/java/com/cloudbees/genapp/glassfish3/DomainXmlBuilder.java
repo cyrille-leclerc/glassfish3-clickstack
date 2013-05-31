@@ -309,7 +309,7 @@ public class DomainXmlBuilder {
     private void addAuthenticationRealm(Metadata metadata) throws XPathExpressionException {
 
 
-        String jdbcRealmBinding = metadata.getRuntimeProperty("glassfish3").get("auth-realm.database");
+        String jdbcRealmBinding = metadata.getRuntimeParameter("glassfish3", "auth-realm.database", null);
         if (jdbcRealmBinding == null) {
             return;
         }
