@@ -128,7 +128,7 @@
       <network-config>
         <protocols>
           <protocol name="http-listener-1">
-            <http default-virtual-server="server" max-connections="250">
+            <http default-virtual-server="server" max-connections="250" scheme-mapping="X-Forwared-Proto">
               <file-cache></file-cache>
             </http>
           </protocol>
