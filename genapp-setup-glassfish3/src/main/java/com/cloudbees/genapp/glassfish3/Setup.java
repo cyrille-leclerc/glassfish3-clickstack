@@ -36,13 +36,11 @@ public class Setup {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        System.err.print("insert glassfish resources " + Arrays.asList(args));
+        System.out.print("insert glassfish resources " + Arrays.asList(args));
         MetadataFinder metadataFinder = new MetadataFinder();
         Metadata metadata = metadataFinder.getMetadata();
         // Build the environment with bash-safe names, and no deprecated values.
         new EnvBuilder(true, false, metadata).writeControlFile("env_safe");
-        // Build the environment properties (bash-unsafe)
-        new EnvBuilder(false, false, metadata).writeControlFile("env");
         // Build Glassfish 3 domain.xml file
         new DomainXmlBuilder(metadata).writeConfiguration("/glassfish3/glassfish/domains/domain1/config/domain.xml");
     }

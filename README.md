@@ -9,24 +9,11 @@ Glassfish v3 ClickStack for CloudBees PaaS. Deploy any Servlet2.x/3.x/JSP/JAX-RS
 
 # Build 
 
-    $ make package
+    $ make clean pkg
 
-After successful build glassfish3-plugin.zip is uploaded in to RUN platform and assigned 'glassfish3' plugin name.
-
-
-# Package and Deploy Sample App
-
-## Create application war file
-    $ cd example/hello
-    $ jar cvf ../../hello.war .
-    $ cd ../..
-
-## Deploy 
-
-    $ bees app:deploy -a APP_ID -t glassfish3  hello.war
+This produces a glassfish3-plugin.zip file that can be uploaded by CloudBees engineers to be used with the glassfish3 alias.
 
 # TODOs
 
-* Database resource injection
 * Clustering, session store
 * Lot more testing...

@@ -50,9 +50,3 @@ java:
 	git clone $(java_plugin_gitrepo) java
 	rm -rf java/.git
 	cd java; make clean; make deps
-
-hello.war:
-	cd example/hello; zip -r ../../hello.war .
-
-clean:
-	rm -f hello.war
