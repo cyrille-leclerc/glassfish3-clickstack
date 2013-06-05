@@ -7,7 +7,7 @@ publish_bucket = cloudbees-clickstack
 publish_repo = testing
 publish_url = s3://$(publish_bucket)/$(publish_repo)/
 
-deps = lib lib/glassfish.zip lib/jmxtrans-agent.jar java
+deps = lib lib/glassfish.zip lib/jmxtrans-agent.jar lib/mysql-connector-java.jar java
 
 pkg_files = README.md LICENSE setup functions control server lib java
 
@@ -43,6 +43,15 @@ lib/jmxtrans-agent.jar:
 	mkdir -p lib
 	curl -fLo lib/jmxtrans-agent.jar "$(jmxtrans_agent_url)"
 	$(call check-md5,lib/jmxtrans-agent.jar,$(jmxtrans_agent_md5))
+
+mysql_connector_ver = 5.1.25
+mysql_connector_url = http://repo1.maven.org/maven2/mysql/mysql-connector-java/$(mysql_connector_ver)/mysql-connector-java-$(mysql_connector_ver).jar
+mysql_connector_md5 = 46696baf8207192077ab420e5bfdc096
+
+lib/mysql-connector-java.jar:
+	mkdir -p lib
+	curl -fLo lib/mysql-connector-java.jar "$(mysql_connector_url)"
+	$(call check-md5,lib/mysql-connector-java.jar,$(mysql_connector_md5))
 
 java_plugin_gitrepo = git://github.com/CloudBees-community/java-clickstack.git
 
