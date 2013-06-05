@@ -314,6 +314,13 @@ public class DomainXmlBuilder {
             return;
         }
 
+        // Verify that the database binding exists
+        Resource resource = metadata.getResource(jdbcRealmBinding);
+        if (resource == null || !(resource instanceof Database)) {
+            throw new RuntimeException("Database binding '" + jdbcRealmBinding + "' declared for RuntimeParameter " +
+                    "glassfish3" + "#" + "auth-realm.database" + " does not exist! Existing Resources " + metadata.getResources().keySet());
+        }
+
         String realmName = "authentication-realm";
         String groupsTable = "cb_groups";
         String usersTable = "cb_users";
@@ -325,7 +332,6 @@ public class DomainXmlBuilder {
 
         logger.info("Insert JdbcRealm '" + realmName + "' associated to database '" + jdbcRealmBinding + "'");
 
-        System.out.println("Insert <auth-realm> associated with DB '" + jdbcRealmBinding + "'");
         Element authRealm = xmlDocument.createElement("auth-realm");
         authRealm.setAttribute("name", realmName);
         authRealm.setAttribute("classname", "com.sun.enterprise.security.auth.realm.jdbc.JDBCRealm");
