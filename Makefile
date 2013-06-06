@@ -7,7 +7,7 @@ publish_bucket = cloudbees-clickstack
 publish_repo = testing
 publish_url = s3://$(publish_bucket)/$(publish_repo)/
 
-deps = lib lib/glassfish.zip lib/jmxtrans-agent.jar lib/mysql-connector-java.jar java
+deps = lib lib/glassfish.zip lib/jmxtrans-agent.jar lib/mysql-connector-java.jar
 
 pkg_files = README.md LICENSE setup functions control server lib java
 
@@ -52,10 +52,3 @@ lib/mysql-connector-java.jar:
 	mkdir -p lib
 	curl -fLo lib/mysql-connector-java.jar "$(mysql_connector_url)"
 	$(call check-md5,lib/mysql-connector-java.jar,$(mysql_connector_md5))
-
-java_plugin_gitrepo = git://github.com/CloudBees-community/java-clickstack.git
-
-java:
-	git clone $(java_plugin_gitrepo) java
-	rm -rf java/.git
-	cd java; make clean; make deps

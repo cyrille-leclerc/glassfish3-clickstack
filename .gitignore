@@ -2,7 +2,6 @@
 /pkg
 /lib
 /glassfish3-plugin.zip
-/java
 .DS_Store
 .project
 .classpath
