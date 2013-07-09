@@ -51,8 +51,8 @@ lib/jmxtrans-agent.jar: lib
 
 
 jmx_invoker_ver = 1.0.0
-jmx_invoker_src = https://repository-cyrille-leclerc.forge.cloudbees.com/snapshot/com/cloudbees/cloudbees-jmx-invoker/1.0.0-SNAPSHOT/cloudbees-jmx-invoker-1.0.0-20130709.104118-3-jar-with-dependencies.jar
-jmx_invoker_md5 = 9430386048898ef8b5dd94ab4bb6672e
+jmx_invoker_src = https://repository-cyrille-leclerc.forge.cloudbees.com/snapshot/com/cloudbees/cloudbees-jmx-invoker/1.0.0-SNAPSHOT/cloudbees-jmx-invoker-1.0.0-20130709.131330-4.jar
+jmx_invoker_md5 = 093ba92450e37ca787675f3e6a4a8d24
 
 lib/cloudbees-jmx-invoker.jar: lib
 	mkdir -p lib
