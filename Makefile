@@ -7,7 +7,7 @@ publish_bucket = cloudbees-clickstack
 publish_repo = testing
 publish_url = s3://$(publish_bucket)/$(publish_repo)/
 
-deps = lib/glassfish.zip lib/jmxtrans-agent.jar lib/mysql-connector-java.jar
+deps = lib/glassfish.zip lib/jmxtrans-agent.jar lib/cloudbees-jmx-invoker.jar lib/mysql-connector-java.jar
 
 pkg_files = README.md LICENSE setup functions control server lib java
 
@@ -48,6 +48,16 @@ jmxtrans_agent_md5 = d568995c11baad912919dbbb0783934e
 lib/jmxtrans-agent.jar: lib
 	curl -fLo lib/jmxtrans-agent.jar "$(jmxtrans_agent_url)"
 	$(call check-md5,lib/jmxtrans-agent.jar,$(jmxtrans_agent_md5))
+
+
+jmx_invoker_ver = 1.0.0
+jmx_invoker_src = https://repository-cyrille-leclerc.forge.cloudbees.com/snapshot/com/cloudbees/cloudbees-jmx-invoker/1.0.0-SNAPSHOT/cloudbees-jmx-invoker-1.0.0-20130709.162935-5-jar-with-dependencies.jar
+jmx_invoker_md5 = b9f12b7a5dceb68f8df6f22007e54bcf
+
+lib/cloudbees-jmx-invoker.jar: lib
+	mkdir -p lib
+	curl -fLo lib/cloudbees-jmx-invoker-jar-with-dependencies.jar "$(jmx_invoker_src)"
+	# $(call check-md5,lib/cloudbees-jmx-invoker-jar-with-dependencies.jar,$(jmx_invoker_md5))
 
 mysql_connector_ver = 5.1.25
 mysql_connector_url = http://repo1.maven.org/maven2/mysql/mysql-connector-java/$(mysql_connector_ver)/mysql-connector-java-$(mysql_connector_ver).jar
