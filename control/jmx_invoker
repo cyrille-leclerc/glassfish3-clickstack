@@ -10,6 +10,9 @@ control_dir="$(dirname $0)"
 
 pidfile="$genapp_dir/app_pid"
 
+export JAVA_HOME=$JAVA_HOME
+export PATH=$JAVA_HOME/bin:$PATH
+
 
 $java \
    \
